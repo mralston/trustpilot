@@ -1,0 +1,39 @@
+# Composer dependencies
+vendor/
+
+# Node dependencies (if present)
+node_modules/
+
+# OS / IDE files
+.DS_Store
+.idea/
+.vscode/
+*.iml
+
+# PHP / Laravel
+.env
+.env.*
+bootstrap/cache/*.php
+storage/*.key
+storage/logs/
+storage/framework/cache/data/*
+storage/framework/sessions/*
+storage/framework/views/*
+
+# Coverage / reports
+coverage/
+.phpunit.result.cache
+phpunit.xml.cache
+
+# Composer / PHP tools
+composer.lock
+/.php-cs-fixer.cache
+.php-cs-fixer.dist.php
+
+# Misc
+*.log
+*.cache
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

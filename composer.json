@@ -1,0 +1,56 @@
+{
+  "name": "mralston/trustpilot",
+  "description": "A PHP/Laravel client for the Trustpilot API built on saloonphp/saloon with Laravel provider, facade, webhook handlers, and Pest tests.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Matt Ralston",
+      "email": "matt@mralston.co.uk",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": ">=8.2",
+    "saloonphp/saloon": "^3.0",
+    "psr/log": "^3.0",
+    "illuminate/collections": "^11.0|^12.0"
+  },
+  "require-dev": {
+    "pestphp/pest": "^3.0",
+    "mockery/mockery": "^1.6",
+    "orchestra/testbench": "^9.0",
+    "nunomaduro/collision": "^8.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Mralston\\Trustpilot\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Mralston\\Trustpilot\\Tests\\": "tests/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Mralston\\Trustpilot\\TrustpilotServiceProvider"
+      ],
+      "aliases": {
+        "Trustpilot": "Mralston\\Trustpilot\\Facades\\Trustpilot"
+      }
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/pest"
+  },
+  "config": {
+    "platform": {
+      "php": "8.4.0"
+    },
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}
