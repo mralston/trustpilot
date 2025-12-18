@@ -18,6 +18,7 @@ use Mralston\Trustpilot\Http\Requests\GetBusinessUnitReviewsRequest;
 use Mralston\Trustpilot\Http\Requests\GetReviewRequest;
 use Mralston\Trustpilot\Http\Requests\SendInvitationRequest;
 use Mralston\Trustpilot\Http\Requests\GetInvitationRequest;
+use Mralston\Trustpilot\Http\Requests\GetStarStringRequest;
 
 class TrustpilotService
 {
@@ -152,6 +153,36 @@ class TrustpilotService
     public function connector(): TrustpilotConnector
     {
         return $this->connector;
+    }
+
+    /**
+     * Get the textual representation for a star rating from Trustpilot resources.
+     * Returns the "string" key from the API response, or null if unavailable.
+     */
+    public function getStarString(float|int|string $stars): ?string
+    {
+        $request = new GetStarStringRequest((string)$stars);
+        $response = $this->connector->send($request);
+
+        if ($response->failed()) {
+            $status = $response->status();
+            $snippet = is_string($response->body()) ? substr($response->body(), 0, 300) : '';
+            $message = 'Trustpilot get stars string failed (HTTP ' . $status . ')';
+            if ($snippet !== '') {
+                $message .= ' Response snippet: ' . $snippet;
+            }
+            throw new \RuntimeException($message);
+        }
+
+        try {
+            $data = $response->json();
+        } catch (\JsonException) {
+            return null;
+        }
+
+        return is_array($data) && array_key_exists('string', $data)
+            ? (string)$data['string']
+            : null;
     }
 
     public function getInvitation(string $invitationId, ?string $businessUnitId = null): InvitationStatus

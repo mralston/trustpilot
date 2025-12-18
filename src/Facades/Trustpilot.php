@@ -22,6 +22,7 @@ use Mralston\Trustpilot\DTOs\Review;
  * @method static Review getReview(string $reviewId)
  * @method static InvitationResponse sendInvitation(Invitation $payload, ?string $businessUnitId = null)
  * @method static \Mralston\Trustpilot\DTOs\InvitationStatus getInvitation(string $invitationId, ?string $businessUnitId = null)
+ * @method static null|string getStarString(float|int|string $stars)
  */
 class Trustpilot extends Facade
 {

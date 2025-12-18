@@ -9,6 +9,8 @@ class BusinessUnit
     public function __construct(
         public readonly string $id,
         public readonly ?string $displayName = null,
+        public readonly ?string $website = null,
+        public readonly ?float $score = null,
         public readonly ?float $stars = null,
         public readonly ?int $numberOfReviews = null,
         public readonly array $raw = [],
@@ -26,6 +28,12 @@ class BusinessUnit
 
         $stars = isset($stars) ? (float) $stars : null;
 
+        // Extract trustScore (score) from nested score.trustScore if present
+        $trustScore = null;
+        if (isset($data['score']) && is_array($data['score']) && array_key_exists('trustScore', $data['score'])) {
+            $trustScore = (float) $data['score']['trustScore'];
+        }
+
         // Extract numberOfReviews: prefer nested numberOfReviews.total, fallback to top-level integer value.
         $numberOfReviews = null;
         if (isset($data['numberOfReviews']) && is_array($data['numberOfReviews']) && array_key_exists('total', $data['numberOfReviews'])) {
@@ -39,6 +47,8 @@ class BusinessUnit
         return new self(
             id: (string)($data['id'] ?? ''),
             displayName: isset($data['displayName']) ? (string)$data['displayName'] : null,
+            website: isset($data['websiteUrl']) ? (string)$data['websiteUrl'] : null,
+            score: $trustScore,
             stars: $stars,
             numberOfReviews: $numberOfReviews,
             raw: $data,
@@ -50,6 +60,8 @@ class BusinessUnit
         return array_filter([
             'id' => $this->id,
             'displayName' => $this->displayName,
+            'website' => $this->website,
+            'score' => $this->score,
             'stars' => $this->stars,
             'numberOfReviews' => $this->numberOfReviews,
             'raw' => $this->raw,

@@ -15,6 +15,7 @@ use Mralston\Trustpilot\Http\Requests\GetBusinessUnitRequest;
 use Mralston\Trustpilot\Http\Requests\GetBusinessUnitReviewsRequest;
 use Mralston\Trustpilot\Http\Requests\SendInvitationRequest;
 use Mralston\Trustpilot\Http\Requests\GetInvitationRequest;
+use Mralston\Trustpilot\Http\Requests\GetStarStringRequest;
 use Saloon\Http\Faking\MockClient;
 use Saloon\Http\Faking\MockResponse;
 
@@ -130,6 +131,34 @@ it('lists reviews for a business unit', function () {
         ->and($reviews->count())->toBe(2)
         ->and($reviews->first())->toBeInstanceOf(Review::class)
         ->and($reviews->first()->stars)->toBe(5);
+});
+
+it('returns the string representation of stars from resources endpoint', function () {
+    $service = app(TrustpilotService::class);
+
+    $mock = new MockClient([
+        GetStarStringRequest::class => MockResponse::make([
+            'string' => 'Excellent',
+        ], 200),
+    ]);
+
+    $service->connector()->withMockClient($mock);
+
+    $label = $service->getStarString(4.5);
+    expect($label)->toBe('Excellent');
+});
+
+it('returns null if resources endpoint has no string key', function () {
+    $service = app(TrustpilotService::class);
+
+    $mock = new MockClient([
+        GetStarStringRequest::class => MockResponse::make([ 'foo' => 'bar' ], 200),
+    ]);
+
+    $service->connector()->withMockClient($mock);
+
+    $label = $service->getStarString('3');
+    expect($label)->toBeNull();
 });
 
 it('retrieves invitation status by id', function () {
