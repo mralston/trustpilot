@@ -15,6 +15,8 @@ class SendInvitationRequest extends Request implements \Saloon\Contracts\Body\Ha
 {
     protected Method $method = Method::POST;
 
+    public ?bool $allowBaseUrlOverride = true;
+
     public function __construct(
         protected string $businessUnitId,
         protected array $payload

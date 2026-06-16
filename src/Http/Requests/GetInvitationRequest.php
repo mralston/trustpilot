@@ -11,6 +11,8 @@ class GetInvitationRequest extends Request
 {
     protected Method $method = Method::GET;
 
+    public ?bool $allowBaseUrlOverride = true;
+
     public function __construct(
         protected string $businessUnitId,
         protected string $invitationId
