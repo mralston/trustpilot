@@ -1,7 +1,6 @@
 {
   "name": "mralston/trustpilot",
   "description": "A PHP/Laravel client for the Trustpilot API built on saloonphp/saloon with Laravel provider, facade, webhook handlers, and Pest tests.",
-  "version": "1.0",
   "type": "library",
   "license": "MIT",
   "authors": [
